@@ -3,6 +3,8 @@ const app = express();
 const mongoose  = require("mongoose");
 const Listing = require("../MajorProject/models/listing");
 const path = require("path");
+const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
 
 // for calling main function
 main().then(() =>{
@@ -19,6 +21,9 @@ async function main() {
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
 app.use(express.urlencoded({extended:true})) // data parse hone liye
+app.use(methodOverride("_method"));
+app.engine("ejs",ejsMate); // for using ejs mate
+app.use(express.static(path.join(__dirname,"/public"))); // for using public folder
 
 app.get("/",(req,res)=>{
     res.send("Hi , I am a root");
@@ -53,6 +58,28 @@ app.post("/listings",async (req,res)=>{
 res.redirect("/listings");
 });
 
+//Edit route
+app.get("/listings/:id/edit", async (req,res)=>{
+    let {id} = req.params;
+    const listing = await Listing.findById(id);
+    res.render("listings/edit.ejs",{listing});
+});
+
+
+//Update route
+app.put("/listings/:id",async (req,res)=>{
+    let {id} = req.params;
+    const listing = await Listing.findByIdAndUpdate(id,{...req.body.listing});
+    res.redirect(`/listings/${listing._id}`);
+});
+
+//Delete route
+app.delete("/listings/:id",async (req,res)=>{
+    let {id} = req.params;
+    await Listing.findByIdAndDelete(id);
+    res.redirect("/listings");
+});
+
 
 
 // app.get("/testListing",async (req,res)=>{
@@ -68,6 +95,6 @@ res.redirect("/listings");
 //     res.send("Successful testing");
 // })
 
-app.listen(8080,()=>{
-    console.log("App is Listening to port 8080");
+app.listen(2005,()=>{
+    console.log("App is Listening to port 2005");
 });
