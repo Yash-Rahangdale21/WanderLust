@@ -4,29 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WanderLust</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h4 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <h4>Create a New Listings</h4>
-    <form method="POST" action="/listings">
-        <input name="listing[title]" placeholder="enter title">
-        <br>
+    <div class="form-container">
+        <h4>Create a New Listing</h4>
+        <form method="POST" action="/listings">
+            <label for="title">Title</label>
+            <input name="listing[title]" id="title" placeholder="Enter title">
 
-        <textarea name="listing[description]" placeholder="enter description"></textarea>
-        <br>
+            <label for="description">Description</label>
+            <textarea name="listing[description]" id="description" placeholder="Enter description"></textarea>
 
-        <input name="listing[image]" placeholder="enter image url/link">
-        <br>
+            <label for="image">Image URL</label>
+            <input name="listing[image]" id="image" placeholder="Enter image URL/link">
 
-        <input name="listing[price]" placeholder="enter price" type="number"> 
-        <br>
+            <label for="price">Price</label>
+            <input name="listing[price]" id="price" type="number" placeholder="Enter price">
 
+            <label for="location">Location</label>
+            <input name="listing[location]" id="location" type="text" placeholder="Enter location">
 
-        <input name="listing[location]" placeholder="enter location" type="text">
-        <br>
+            <label for="country">Country</label>
+            <input name="listing[country]" id="country" type="text" placeholder="Enter country">
 
-        <input name="listing[country]" placeholder="enter country " type="text">
-        <br>
-        <button> Add</button>
-    </form>
+            <button type="submit">Add</button>
+        </form>
+    </div>
 </body>
 </html>
