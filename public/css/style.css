@@ -68,3 +68,15 @@
 .card-test p{
     font-weight:400;
 }
+.listing-link{
+    text-decoration: none;
+    
+}
+/*Card Effect */
+.card-image-overlay{
+    opacity:0;
+}
+.card-img-overlay:hover{
+    opacity:0.2;
+    background-color: white;
+}
