@@ -1,19 +1,31 @@
 <% layout("/layouts/boilerplate") %>
-<body>
+<div class="row mt-3">
+    <div class="col-8 offset-3">
+
+    
     <h2> Listing Detail</h2>
-    <ul>
-        <li> <%= listing.title %></li>
-        <li> <%= listing.description %></li>
-        <li> &#x20B9 <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %></li>
+</div>
+    <div class="card col-6 offset-3">
+        <img src= "<%= listing.image.url %> " class="card-img-top show-img" alt="listing_image" />
+  <div class="card-body">
+    <p class="card-text">
+        <b><%= listing.title %></b> <br>
+        <%= listing.description %> <br>
+        &#x20B9 <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> <br>
+        <%= listing.location %> <br>
+        <%= listing.country %><br>
 
-        <li> <%= listing.location %></li>
-        <li> <%= listing.country %></li>
-    </ul>
-    <br/>
-    <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
-        <button>Delete this listings</button> 
-        <br/>
-    <br>    </form>
-    <a href="/listings/<%= listing._id %>/edit">Editing this listings</a>
 
-</body>
+    </p>
+  </div>
+    </div>
+    </div>
+    <div class="btns">
+        <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark  offset-3 edit-btn">
+            Edit</a>
+
+    
+        <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+        <button class="btn btn-dark offset-4">Delete </button>
+           </form>
+    </div>
