@@ -61,24 +61,28 @@
 <body>
     <div class="form-container">
         <h4>Create a New Listing</h4>
-        <form method="POST" action="/listings">
+        <form method="POST" action="/listings" class="needs-validation" novalidate>
             <label for="title">Title</label>
-            <input name="listing[title]" id="title" placeholder="Enter title">
+            <input name="listing[title]" id="title" placeholder="Enter title" required/>
+
+            <div class="valid-feedback">
+                Title looks good!
+            </div>
 
             <label for="description">Description</label>
-            <textarea name="listing[description]" id="description" placeholder="Enter description"></textarea>
+            <textarea name="listing[description]" id="description" placeholder="Enter description" required></textarea>
 
             <label for="image">Image URL</label>
             <input name="listing[image]" id="image" placeholder="Enter image URL/link">
 
             <label for="price">Price</label>
-            <input name="listing[price]" id="price" type="number" placeholder="Enter price">
+            <input name="listing[price]" id="price" type="number" placeholder="Enter price" required>
 
             <label for="location">Location</label>
-            <input name="listing[location]" id="location" type="text" placeholder="Enter location">
+            <input name="listing[location]" id="location" type="text" placeholder="Enter location" required>
 
             <label for="country">Country</label>
-            <input name="listing[country]" id="country" type="text" placeholder="Enter country">
+            <input name="listing[country]" id="country" type="text" placeholder="Enter country" required>
 
             <button type="submit">Add</button>
         </form>
