@@ -51,11 +51,16 @@ app.get("/listings/:id",async (req,res)=>{
 });
 
 //create route 
-app.post("/listings",async (req,res)=>{
+app.post("/listings",async (req,res,next)=>{
     //let {title,desciption,image,price,location,country} = req.params;
-   const newlisting =  new Listing(req.body.listing);
+   
+   try{
+     const newlisting =  new Listing(req.body.listing);
    await newlisting.save();
 res.redirect("/listings");
+   }catch(err){
+       next(err);
+   }
 });
 
 //Edit route
@@ -94,6 +99,10 @@ app.delete("/listings/:id",async (req,res)=>{
 //     console.log("Sample was saved");
 //     res.send("Successful testing");
 // })
+
+app.use((err,req,res,next)=>{
+    res.send("something went wrong");
+});
 
 app.listen(2005,()=>{
     console.log("App is Listening to port 2005");
