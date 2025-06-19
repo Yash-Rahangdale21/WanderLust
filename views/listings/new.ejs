@@ -1,91 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WanderLust</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .form-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 400px;
-        }
-
-        h4 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
-</head>
-
+<% layout("/layouts/boilerplate") %>
 <body>
-    <div class="form-container">
-        <h4>Create a New Listing</h4>
-        <form method="POST" action="/listings" class="needs-validation" novalidate>
-            <label for="title">Title</label>
-            <input name="listing[title]" id="title" placeholder="Enter title" required/>
-
-            <div class="valid-feedback">
-                Title looks good!
-            </div>
-
-            <label for="description">Description</label>
-            <textarea name="listing[description]" id="description" placeholder="Enter description" required></textarea>
-
-            <label for="image">Image URL</label>
-            <input name="listing[image]" id="image" placeholder="Enter image URL/link">
-
-            <label for="price">Price</label>
-            <input name="listing[price]" id="price" type="number" placeholder="Enter price" required>
-
-            <label for="location">Location</label>
-            <input name="listing[location]" id="location" type="text" placeholder="Enter location" required>
-
-            <label for="country">Country</label>
-            <input name="listing[country]" id="country" type="text" placeholder="Enter country" required>
-
-            <button type="submit">Add</button>
-        </form>
+    <div class="row mt-3">
+    <div class="col-8 offset-2" >
+  <h4>Create a New Listing</h4>
+  <form method="POST" action="/listings"  class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input
+        name="listing[title]"
+        type="text"
+        class="form-control"
+        placeholder="Add a catchy title"
+        required
+      />
+      <div class="valid-feedback">
+      Looks good!
     </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea
+        name="listing[description]"
+        class="form-control"
+        placeholder="Enter description"
+        required
+      ></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="image" class="form-label">Image URL</label>
+      <input
+        name="listing[image]"
+        type="text"
+        class="form-control"
+        placeholder="Enter image URL/link"
+      />
+    </div>
+
+    <div class="row">
+    <div class="mb-3 col-4">
+      <label for="price" class="form-label">Price</label>
+      <input
+        name="listing[price]"
+        id="price"
+        class="form-control"
+        type="number"
+        placeholder="Enter price"
+        required
+      />
+    </div>
+
+    <div class="mb-3 col-8">
+      <label for="country" class="form-label">Country</label>
+      <input
+        name="listing[country]"
+        id="country"
+        class="form-control"
+        type="text"
+        placeholder="Enter country"
+        required
+      />
+    </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="location" class="form-label">Location</label>
+      <input
+        name="listing[location]"
+        id="location"
+        class="form-control"
+        type="text"
+        placeholder="Enter location"
+        required
+      />
+    </div>
+    
+
+    <button class="btn btn-dark add-btn">Add</button>
+    <br> <br>
+  </form>
+</div>
+</div>
+<script>
+  (() => {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach((form) => {
+      form.addEventListener('submit', (event) => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>
+
 </body>
-</html>
