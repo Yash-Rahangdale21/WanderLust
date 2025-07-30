@@ -30,7 +30,7 @@
     <div class="col-8 offset-3 mb-3">
         <hr>
         <h4> Leave a Review</h4>
-        <form action="/listings/<%= listing.id %>/reviews" method="POST">
+        <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
             <div class="mb-3 mt-3">
                 <label for="Rating" class="form-label">Rating</label>
                 <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range"/>
@@ -38,9 +38,29 @@
             <div class="mb-3 mt-3">
                 <label for="comments" class="form-label">Review</label>
                 <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
+                <div class="invalid-feedback">Please add some comments for review</div>
             </div>
             <button class="btn btn-outline-dark">Submit</button>
         </form>
     </div>
     </div>
+    <script>
+    (() => {
+      "use strict";
+      const forms = document.querySelectorAll(".needs-validation");
+      Array.from(forms).forEach((form) => {
+        form.addEventListener(
+          "submit",
+          (event) => {
+            if (!form.checkValidity()) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add("was-validated");
+          },
+          false
+        );
+      });
+    })();
+  </script>
     

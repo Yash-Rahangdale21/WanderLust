@@ -7,7 +7,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const { listingSchema } = require("./schema.js");
+const { listingSchema,reviewSchema } = require("./schema.js");
 const { valid } = require("joi");
 const Review = require("../MajorProject/models/review.js");
 
@@ -39,6 +39,17 @@ app.get("/", (req, res) => {
 const validateListing = (req, res, next) => {
   let {error} = listingSchema.validate(req.body); // Validate the request body against the schema
     
+    if (error) {
+      let errMsg = error.details.map((el) => el.message).join(",");
+      throw new ExpressError(400, errMsg);
+    }else{
+      next();
+    }
+};
+
+const validateReview = (req, res, next) => {
+  let {error} = reviewSchema.validate(req.body); // Validate the request body against the schema
+
     if (error) {
       let errMsg = error.details.map((el) => el.message).join(",");
       throw new ExpressError(400, errMsg);
@@ -117,7 +128,7 @@ app.delete(
 
 //Reviews
 //Post Route
-app.post("/listings/:id/reviews", async (req, res) => {
+app.post("/listings/:id/reviews",validateReview,wrapAsync(async (req, res) => {
   let listing = await Listing.findById(req.params.id);
   let newReview = new Review(req.body.review);
 
@@ -127,7 +138,7 @@ app.post("/listings/:id/reviews", async (req, res) => {
   await listing.save();
   
   res.redirect(`/listings/${listing._id}`);
-});
+}));
 
 
 // app.get("/testListing",async (req,res)=>{
