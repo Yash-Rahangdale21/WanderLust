@@ -54,7 +54,7 @@ body{
     
 }
 /*cards*/
-.card{
+.listing-card{
     width: 18rem;
     height: 25rem;
     margin: 1rem;
