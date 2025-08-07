@@ -1,0 +1,6 @@
+## cookies : it is use for the remembering where we are some minutes back
+## it is store small data 
+## it is (name : value) pair
+## to use we write res.cookie(name,value);
+
+## cookie access + parse => cookie-parser (it is a npm package) is a middlewaree for acces the cookie
