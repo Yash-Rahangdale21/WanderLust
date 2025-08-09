@@ -4,8 +4,12 @@ const users= require('./routes/user.js');
 const posts= require('./routes/post.js');
 const cookieParser = require('cookie-parser');
 const flash = require("connect-flash");
+const path = require("path");
 
 const session = require('express-session');
+
+app.set("view engine","ejs");
+app.set("views", path.join(__dirname,"views"));
 
 //app.use(cookieParser("secretcode"));
 
@@ -42,6 +46,16 @@ app.use(session({
 
 app.use(flash());  // it is use for the store and see one time msg
 
+
+app.use((req, res, next) => {
+     res.locals.success = req.flash("success");  //locals variable me store kar skate msg for showing one time to client
+    res.locals.error = req.flash("error");
+    next();
+});
+
+
+
+
 // app.get("/test", (req, res) => {
 //     res.send("Testing session");
 // });
@@ -59,13 +73,19 @@ app.get("/register", (req, res) => {
     let{name = "anonymous"} = req.query;
     req.session.name = name;
     console.log(req.session.name);
-    req.flash("success", "Registration successful!");
+    
+    if(name === "anonymous"){
+        req.flash("error", "registration failed!");
+    }
+    else{
+        req.flash("success", "Registration successful!");
+    }
+
     res.redirect("/hello");
 });
 
 app.get("/hello", (req, res) => {
-
-    res.send(`Hello,${req.session.name}`);
+   res.render("page.ejs", {name:req.session.name});
 });
 
 app.listen(3000, () => {
