@@ -5,10 +5,14 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
-
-const listings = require("./routes/listing.js"); // Import the router
-const reviews = require("./routes/review.js"); // Import the router for reviews
-
+const session = require("express-session");
+const flash = require("connect-flash");
+const listingRouter = require("./routes/listing.js"); // Import the router
+const reviewRouter = require("./routes/review.js"); // Import the router for reviews
+const userRouter = require("./routes/user.js"); // Import the user router
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/User.js");
 // for calling main function
 main()
   .then(() => {
@@ -30,31 +34,44 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate); // for using ejs mate
 app.use(express.static(path.join(__dirname, "/public"))); // for using public folder
 
+const sessionOptions = {
+  secret:"mysupersecretcode",
+  resave: false,
+  saveUninitialized: true,
+  cookie:{
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000, // 1 week
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
+    httpOnly: true,
+  },
+};
+
 app.get("/", (req, res) => {
   res.send("Hi , I am a root");
 });
 
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 
 
- 
-app.use("/listings",listings); 
+app.use("/listings", listingRouter);
 
-app.use("/listings/:id/reviews",reviews);;
-
-
-// app.get("/testListing",async (req,res)=>{
-//     let sampleListing = new Listing({
-//         title:"My new villa",
-//         desciptiom:"Bt the beech",
-//         price:1220,
-//         location:"Calcutta",
-//         country:"India",
-//     });
-//     await sampleListing.save();
-//     console.log("Sample was saved");
-//     res.send("Successful testing");
-// })
+app.use("/listings/:id/reviews", reviewRouter);
+app.use("/",userRouter);
 
 // upar me se koi path se relate nhi huua to
 app.all("*", (req, res, next) => {

@@ -3,7 +3,6 @@ const router = express.Router();  // to  common route
 const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const { listingSchema } = require("../schema.js");
-
 const Listing = require("../models/listing.js");
 
 
@@ -35,6 +34,10 @@ router.get(
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id).populate("reviews");
+    if(!listing){
+      req.flash("error","Listing not found");
+      res.redirect("/listings");
+    }
     res.render("./listings/show.ejs", { listing });
   })
 );
@@ -44,11 +47,9 @@ router.post(
   "/",validateListing,
   wrapAsync(async (req, res, next) => {
     //let {title,desciption,image,price,location,country} = req.params;
-    
-
     const newlisting = new Listing(req.body.listing);
-
-    await newlisting.save();
+  await newlisting.save();
+  req.flash("success","New Listing is created");
     res.redirect("/listings");
   })
 );
@@ -59,6 +60,10 @@ router.get(
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
+    if(!listing){
+      req.flash("error","Listing not found");
+      res.redirect("/listings");
+    }
     res.render("listings/edit.ejs", { listing });
   })
 );
@@ -72,6 +77,7 @@ router.put(
     const listing = await Listing.findByIdAndUpdate(id, {
       ...req.body.listing,
     });
+    req.flash("success","Listing  updated");
     res.redirect(`/listings/${listing._id}`);
   })
 );
@@ -82,6 +88,7 @@ router.delete(
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     await Listing.findByIdAndDelete(id);
+    req.flash("success","Listing  deleted");
     res.redirect("/listings");
   })
 );
