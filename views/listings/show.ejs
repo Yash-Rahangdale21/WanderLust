@@ -9,11 +9,14 @@
         <img src= "<%= listing.image.url %> " class="card-img-top show-img" alt="listing_image" />
   <div class="card-body">
     <p class="card-text">
-        <%= listing.description %> <br>
-        &#x20B9 <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> <br>
-        <%= listing.location %> <br>
-        <%= listing.country %><br>
-</p>
+      Owned By : 
+      <i><%= listing.owner ? listing.owner.username : "Unknown Owner" %></i>
+      </p>
+     
+        <p class="card-text"><%= listing.description %> </p>
+        <p class="card-text">&#x20B9 <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> </p>
+        <p class="card-text"><%= listing.location %> </p>
+        <p class="card-text"><%= listing.country %></p>
   </div>
     </div>
   
