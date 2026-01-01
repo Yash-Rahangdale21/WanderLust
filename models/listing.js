@@ -9,11 +9,10 @@ const listingSchema = new Schema({
     },
     description : String,
     image: {
-        filename:String,
-        url: {
-            type: String,
-            default: "https://unsplash.com/photos/a-wooden-table-topped-with-vases-filled-with-flowers-QeVMDp0wohM",
-        },
+        url: String,
+        filename: String,
+       
+        
     },
     price:Number,
     location:String,

@@ -1,3 +1,9 @@
+if(process.env.NODE_ENV !== "production"){
+  require("dotenv").config();
+}
+
+
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -14,6 +20,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/User.js");
 // for calling main function
+
+ const dbUrl = process.env.ATLASDB_URL ;
+ 
 main()
   .then(() => {
     console.log("Connected to DB ");
@@ -22,10 +31,14 @@ main()
     console.log(err);
   });
 
+ 
+
 //for create a db in mongodb
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
+  await mongoose.connect(dbUrl);
 }
+
+
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -45,9 +58,9 @@ const sessionOptions = {
   },
 };
 
-app.get("/", (req, res) => {
-  res.send("Hi , I am a root");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hi , I am a root");
+// });
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -85,6 +98,6 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("error.ejs", { message });
 });
 
-app.listen(2005, () => {
-  console.log("App is Listening to port 2005");
+app.listen(4000, () => {
+  console.log("App is Listening to port 4000");
 });
